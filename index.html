@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fff9e9">
+    <meta name="description" content="GUESSR — Find the secret number, follow the clues, and claim victory!">
+    <title>GUESSR — The Number Hunt</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="page-shell">
+
+        <header class="navbar">
+            <a href="#" class="logo">
+                <span class="logo-icon">✳</span> GUESSR<span class="logo-dot">.</span>
+            </a>
+
+            <div class="nav-right">
+                <span class="status-dot"></span>
+                <span class="nav-label">THE NUMBER HUNT</span>
+                <button class="sound-button" id="soundButton" aria-label="Toggle sound" title="Toggle sound">♫</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="hero-copy">
+                    <div class="eyebrow"><span>✦</span> WELCOME, NUMBER HUNTER</div>
+
+                    <h1>
+                        READY TO<br>
+                        <span class="title-highlight">GUESS?</span><span class="title-star">✳</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        A secret number. A handful of chances.
+                        One glorious victory. Think you have
+                        what it takes?
+                    </p>
+
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number" id="totalWins">0</span>
+                            <span class="stat-label">TOTAL WINS</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat">
+                            <span class="stat-number" id="bestScore">—</span>
+                            <span class="stat-label">BEST GUESSES</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-art" aria-label="Illustrated treasure chest">
+                    <div class="art-sun"></div>
+                    <div class="art-star star-one">✦</div>
+                    <div class="art-star star-two">✳</div>
+                    <div class="art-star star-three">✦</div>
+
+                    <div class="art-caption">THE HUNT IS ON!</div>
+
+                    <div class="treasure">
+                        <div class="treasure-glow"></div>
+                        <div class="coin coin-one">$</div>
+                        <div class="coin coin-two">✦</div>
+                        <div class="coin coin-three">$</div>
+                        <div class="chest-lid"></div>
+                        <div class="chest-body">
+                            <div class="chest-band band-left"></div>
+                            <div class="chest-band band-right"></div>
+                            <div class="chest-lock">✦</div>
+                        </div>
+                    </div>
+
+                    <div class="art-ground"></div>
+
+                    <div class="art-sticker">
+                        <span>LUCK</span>
+                        <strong>OR</strong>
+                        <span>LOGIC?</span>
+                    </div>
+
+                    <div class="art-bottom-text">FIND THE HIDDEN NUMBER ↗</div>
+                </div>
+            </section>
+
+            <section class="game-section" id="game">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">YOUR MISSION</span>
+                        <h2>Crack the code<span class="heading-period">.</span></h2>
+                    </div>
+
+                    <div class="difficulty">
+                        <label class="difficulty-label" for="difficulty">DIFFICULTY</label>
+                        <select id="difficulty">
+                            <option value="easy">Easy · 1–50</option>
+                            <option value="medium" selected>Medium · 1–100</option>
+                            <option value="hard">Hard · 1–500</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="game-card">
+                    <div class="game-card-top">
+                        <div class="round-label">
+                            <span class="round-icon">◎</span>
+                            ROUND <span id="roundNumber">01</span>
+                        </div>
+
+                        <div class="attempts-label">
+                            GUESSES LEFT
+                            <span class="attempt-counter" id="attemptsLeft">10</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+
+                    <div class="secret-number-area">
+                        <div class="secret-label">THE SECRET NUMBER IS...</div>
+
+                        <div class="number-display" id="numberDisplay">
+                            <span>?</span>
+                        </div>
+
+                        <p class="number-hint" id="numberHint">
+                            Somewhere between 1 and 100. Find it!
+                        </p>
+                    </div>
+
+                    <form id="guessForm" class="guess-form">
+                        <label for="guessInput">YOUR GUESS</label>
+
+                        <div class="input-row">
+                            <input
+                                type="number"
+                                id="guessInput"
+                                placeholder="Enter a number..."
+                                min="1"
+                                max="100"
+                                step="1"
+                                required
+                                autocomplete="off"
+                            >
+
+                            <button type="submit" class="guess-button" id="guessButton">
+                                GUESS IT <span>↗</span>
+                            </button>
+                        </div>
+
+                        <p class="input-error" id="inputError" role="alert"></p>
+                    </form>
+
+                    <div class="feedback-box" id="feedbackBox" aria-live="polite">
+                        <span class="feedback-icon" id="feedbackIcon">✦</span>
+                        <div>
+                            <strong id="feedbackTitle">YOUR ADVENTURE STARTS HERE</strong>
+                            <p id="feedbackMessage">Enter your first guess and see where it takes you.</p>
+                        </div>
+                    </div>
+
+                    <div class="game-footer">
+                        <div class="hint-area">
+                            <span class="hint-icon">☼</span>
+                            <span id="hintCount">3 hints available</span>
+                        </div>
+
+                        <div class="footer-actions">
+                            <button type="button" class="text-button" id="hintButton">GET A HINT ↗</button>
+                            <button type="button" class="text-button reset-button" id="resetButton">↻ RESTART</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="how-section">
+                <div class="how-title">
+                    <span class="section-kicker">NEW TO THE HUNT?</span>
+                    <h2>Easy as 1, 2, <span>3.</span></h2>
+                </div>
+
+                <div class="steps">
+                    <article class="step-card">
+                        <div class="step-top">
+                            <span class="step-number">01</span>
+                            <span class="step-symbol">⌨</span>
+                        </div>
+                        <h3>Make a guess</h3>
+                        <p>Pick a number within your chosen range. Trust your gut!</p>
+                    </article>
+
+                    <article class="step-card">
+                        <div class="step-top">
+                            <span class="step-number">02</span>
+                            <span class="step-symbol">☞</span>
+                        </div>
+                        <h3>Follow the clues</h3>
+                        <p>Get higher or lower hints to narrow down the mystery.</p>
+                    </article>
+
+                    <article class="step-card">
+                        <div class="step-top">
+                            <span class="step-number">03</span>
+                            <span class="step-symbol">♛</span>
+                        </div>
+                        <h3>Claim the win</h3>
+                        <p>Find the number in as few guesses as possible. Go legend!</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="history-section">
+                <div class="history-heading">
+                    <div>
+                        <span class="section-kicker">YOUR JOURNEY</span>
+                        <h2>Recent hunts<span class="heading-period">.</span></h2>
+                    </div>
+                    <button class="text-button" id="clearHistoryButton">CLEAR HISTORY</button>
+                </div>
+
+                <div class="history-list" id="historyList">
+                    <div class="empty-history">
+                        <span>☻</span>
+                        Your adventures will appear here.
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <a href="#" class="logo footer-logo">
+                <span class="logo-icon">✳</span> GUESSR<span class="logo-dot">.</span>
+            </a>
+            <p>BUILT FOR THE CURIOUS. MADE FOR THE BOLD.</p>
+            <span class="footer-credit">A LITTLE GAME BY PARVANA MOHAN © 2026</span>
+        </footer>
+    </div>
+
+    <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+</body>
+</html>
